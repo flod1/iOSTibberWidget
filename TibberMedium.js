@@ -6,6 +6,7 @@
 // v1.0.1 - Lagt til "HOME_NR" som innstilling
 // v1.5.0 - Laget medium- og large-størrelse widget (foreløpig som 3 separate script)
 // v1.5.1 - Uploaded to GitHub by Daniel Eneström (https://github.com/danielenestrom)
+// v1.5.2 - Replace label const
 
 // Finn din token ved å logge på med Tibber-kontoen din her:
 // https://developer.tibber.com/settings/accesstoken
@@ -28,8 +29,15 @@ const TEXTFARGE_HOY = "#de4035";
 // Når prisen denne timen er lavere enn snittprisen i dag, så brukes denne tekstfargen (grønn)
 const TEXTFARGE_LAV = "#35de3b";
 
+const COSTUNIT = "€";
 
+const PRICE_PER_UNIT = "cent/kWh";
 
+const TODAY_LABEL = "Heute"
+
+const MONTH_LABEL = "Dieser Monat"
+
+const STATE = "Stand";
 
 // DU TRENGER IKKE ENDRE NOE LENGRE NED !
 // --------------------------------------
@@ -150,7 +158,7 @@ async function createWidget() {
   if (priceOre > avgPrice)
     price.textColor = new Color(TEXTFARGE_HOY)
 
-  const priceTxt = stackV.addText("øre/kWh");
+  const priceTxt = stackV.addText(PRICE_PER_UNIT);
   priceTxt.centerAlignText();
   priceTxt.font = Font.lightSystemFont(10);
   priceTxt.textColor = new Color(TEKSTFARGE);
@@ -169,7 +177,7 @@ async function createWidget() {
   stackM.layoutVertically()
 
   // Legg til forbruk hittil i dag i m.kolonne
-  let forbruk = stackM.addText(totCostD + " kr");
+  let forbruk = stackM.addText(totCostD + COSTUNIT);
   forbruk.rightAlignText();
   forbruk.font = Font.lightSystemFont(16);
   forbruk.textColor = new Color(TEKSTFARGE);
@@ -179,7 +187,7 @@ async function createWidget() {
   forbruk2.font = Font.lightSystemFont(14);
   forbruk2.textColor = new Color(TEKSTFARGE);
 
-  let forbrukTxt = stackM.addText("Hittil i dag");
+  let forbrukTxt = stackM.addText(TODAY_LABEL);
   forbrukTxt.rightAlignText();
   forbrukTxt.font = Font.lightSystemFont(10);
   forbrukTxt.textColor = new Color(TEKSTFARGE);
@@ -192,7 +200,7 @@ async function createWidget() {
   stackH.layoutVertically()
 
   // Legg til forbruk hittil denne mnd i h.kolonne
-  forbruk = stackH.addText(totCostM + " kr");
+  forbruk = stackH.addText(totCostM + COSTUNIT);
   forbruk.rightAlignText();
   forbruk.font = Font.lightSystemFont(16);
   forbruk.textColor = new Color(TEKSTFARGE);
@@ -202,7 +210,7 @@ async function createWidget() {
   forbruk2.font = Font.lightSystemFont(14);
   forbruk2.textColor = new Color(TEKSTFARGE);
 
-  forbrukTxt = stackH.addText("Hittil denne mnd");
+  forbrukTxt = stackH.addText(MONTH_LABEL);
   forbrukTxt.rightAlignText();
   forbrukTxt.font = Font.lightSystemFont(10);
   forbrukTxt.textColor = new Color(TEKSTFARGE);
@@ -220,7 +228,7 @@ async function createWidget() {
   let min = d.getMinutes();
   if (min < 10) min = "0" + min;
 
-  let time = lw.addText("Oppdatert: " + hour + ":" + min);
+  let time = lw.addText(STATE+": " + hour + ":" + min);
   time.centerAlignText();
   time.font = Font.lightSystemFont(8);
   time.textColor = new Color(TEKSTFARGE);
